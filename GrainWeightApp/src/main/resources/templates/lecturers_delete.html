@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Demo App</title>
+</head>
+<body>
+<h1 th:text="${lecturer != null ? 'Do you really want to delete lecturer: ' + lecturer.name : 'Lecturer does not exist.'}"></h1>
+<form method="post" th:action="@{'/lecturers/'+${lecturer.id}+'/delete'}">
+    <input type="submit" value="Yes, delete!">
+</form>
+<a th:if="${lecturer != null}" th:href="@{'/lecturers/'+${lecturer.id}}">No</a>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Demo App</title>
+</head>
+<body>
+<h1 th:text="${user.id == 0 ? 'New User' : 'Edit User'}"></h1>
+
+<form method="post" th:action="@{/users/save}" th:object="${user}">
+    <input type="hidden" th:field="*{id}">
+    Name: <input type="text" th:field="*{name}">
+    <input type="submit" value="Save">
+</form>
+
+</body>
+</html>

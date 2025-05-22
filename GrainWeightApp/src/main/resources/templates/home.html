@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>My Demo App</title>
+</head>
+<body>
+<h1>My Demo App</h1>
+
+<h3 th:text="${#authentication.name}"></h3>
+
+<a th:href="@{/users/}">List of Users</a>
+<a th:href="@{/lecturers/}">List of Lecturers</a>
+<a th:href="@{/courses/}">List of Courses</a>
+
+<br><br>
+<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">Admin section</a>
+<br><br>
+
+<form method="post" th:action="@{/logout}">
+    <input type="submit" value="Logout">
+</form>
+
+</body>
+</html>

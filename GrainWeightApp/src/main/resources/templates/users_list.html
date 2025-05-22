@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Demo App</title>
+</head>
+<body>
+<h1>List of Users</h1>
+
+<a th:href="@{/users/add}">Add New User</a>
+
+<ul>
+    <li th:each="user: ${users}">
+        <a th:href="@{'/users/'+${user.id}}" th:text="${user.name}"></a>
+    </li>
+</ul>
+
+</body>
+</html>

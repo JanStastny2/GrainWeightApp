@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Demo App</title>
+</head>
+<body>
+<h1 th:text="${user != null ? 'User: ' + user.name : 'Does not exist.'}"></h1>
+
+<a th:if="${user != null}" th:href="@{'/users/'+${user.id}+'/edit'}">Edit User</a>
+<a th:if="${user != null}" th:href="@{'/users/'+${user.id}+'/delete'}">Delete User</a>
+
+</body>
+</html>

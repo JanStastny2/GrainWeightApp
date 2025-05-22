@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Demo App</title>
+</head>
+<body>
+<h1>List of Courses</h1>
+
+<a th:href="@{/courses/add}">Add New Course</a>
+
+<ul>
+    <li th:each="course: ${courses}">
+        <a th:href="@{'/courses/'+${course.id}}" th:text="${course.name}"></a>
+    </li>
+</ul>
+
+</body>
+</html>

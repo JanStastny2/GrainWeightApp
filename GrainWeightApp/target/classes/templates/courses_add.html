@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Demo App</title>
+</head>
+<body>
+<h1 th:text="${course.id == 0 ? 'New Course' : 'Edit Course'}"></h1>
+
+<form method="post" th:action="@{/courses/save}" th:object="${course}">
+    <input type="hidden" th:field="*{id}">
+    Name: <input type="text" th:field="*{name}"><br>
+
+    Lecturer: <select th:field="*{lecturer}">
+        <option th:each="lect: ${lecturers}"
+                th:value="${lect.id}" th:text="${lect.name}"></option>
+    </select>
+
+    <br>
+    <input type="submit" value="Save">
+</form>
+
+</body>
+</html>
