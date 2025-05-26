@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class WeighingSessionServiceImpl implements WeighingSessionService {
+public class WeighingRecordServiceImpl implements WeighingSessionService {
     @Override
     public void startSession(WeighingSession session) {
     }

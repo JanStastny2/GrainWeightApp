@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Seznam polí</title>
+</head>
+<body>
+<h1>Seznam polí</h1>
+<a th:href="@{/fields/new}">Přidat nové pole</a>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Název</th>
+        <th>Rozloha (ha)</th>
+        <th>Lokace</th>
+        <th>Akce</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="fld : ${fields}">
+        <td th:text="${fld.id}">1</td>
+        <td th:text="${fld.name}">Pole A</td>
+        <td th:text="${fld.area}">10.5</td>
+        <td th:text="${fld.location}">Severní okraj</td>
+        <td>
+            <a th:href="@{/fields/edit/{id}(id=${fld.id})}">Upravit</a> |
+            <a th:href="@{/fields/delete/{id}(id=${fld.id})}" onclick="return confirm('Opravdu smazat?');">Smazat</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
