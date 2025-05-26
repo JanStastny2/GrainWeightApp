@@ -11,7 +11,7 @@
 
 <ul>
     <li th:each="driver: ${drivers}">
-        <a th:href="@{'/drivers/'+${driver.id}}" th:text="${driver.name}"></a>
+        <a th:href="@{'/drivers/'+${driver.id}}" th:text="${driver.driverName}"></a>
     </li>
 </ul>
 
