@@ -1,7 +1,7 @@
 package cz.uhk.grainweight.controller;
 
-import cz.uhk.grainweight.model.Lecturer;
-import cz.uhk.grainweight.service.LecturerService;
+import cz.uhk.grainweight.model.Driver;
+import cz.uhk.grainweight.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,53 +10,53 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/drivers")
 public class DriverController {
-    private final LecturerService lecturerService;
+    private final DriverService driverService;
 
     @Autowired
-    public DriverController(LecturerService lecturerService) {
-        this.lecturerService = lecturerService;
+    public DriverController(DriverService driverService) {
+        this.driverService = driverService;
     }
 
     @GetMapping("/")
     public String list(Model model) {
-        model.addAttribute("lecturers", lecturerService.getAllLecturers());
-        return "lecturers_list";
+        model.addAttribute("drivers", driverService.getAllDrivers());
+        return "drivers_list";
     }
 
     @GetMapping("/{id}")
     public String detail(Model model, @PathVariable long id) {
-        model.addAttribute("lecturer", lecturerService.getLecturer(id));
-        return "lecturers_detail";
+        model.addAttribute("driver", driverService.getDriver(id));
+        return "drivers_detail";
     }
 
     @GetMapping("/{id}/delete")
     public String delete(Model model, @PathVariable long id) {
-        model.addAttribute("lecturer", lecturerService.getLecturer(id));
-        return "lecturers_delete";
+        model.addAttribute("driver", driverService.getDriver(id));
+        return "drivers_delete";
     }
 
     @PostMapping("/{id}/delete")
     public String deleteConfirm(Model model, @PathVariable long id) {
-        lecturerService.deleteLecturer(id);
-        return "redirect:/lecturers/";
+        driverService.deleteDriver(id);
+        return "redirect:/drivers/";
     }
 
     @GetMapping("/add")
     public String add(Model model) {
-        model.addAttribute("lecturer", new Lecturer());
-        return "lecturers_add";
+        model.addAttribute("driver", new Driver());
+        return "drivers_add";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable long id) {
-        model.addAttribute("lecturer", lecturerService.getLecturer(id));
-        return "lecturers_add";
+        model.addAttribute("driver", driverService.getDriver(id));
+        return "drivers_add";
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute Lecturer lecturer) {
-        lecturerService.saveLecturer(lecturer);
-        return "redirect:/lecturers/";
+    public String save(@ModelAttribute Driver driver) {
+        driverService.saveDriver(driver);
+        return "redirect:/drivers/";
     }
 
 }

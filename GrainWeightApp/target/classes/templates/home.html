@@ -10,11 +10,11 @@
 <h3 th:text="${#authentication.name}"></h3>
 
 <a th:href="@{/users/}">List of Users</a>
-<a th:href="@{/lecturers/}">List of Lecturers</a>
+<a th:href="@{/drivers/}">List of Drivers</a>
 <a th:href="@{/courses/}">List of Courses</a>
 
 <br><br>
-<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">Admin section</a>
+<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">Admin section, here you can edit users and do some other stuff</a>
 <br><br>
 
 <form method="post" th:action="@{/logout}">

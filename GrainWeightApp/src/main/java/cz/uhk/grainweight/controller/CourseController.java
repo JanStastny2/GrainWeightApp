@@ -2,7 +2,7 @@ package cz.uhk.grainweight.controller;
 
 import cz.uhk.grainweight.model.Course;
 import cz.uhk.grainweight.service.CourseService;
-import cz.uhk.grainweight.service.LecturerService;
+import cz.uhk.grainweight.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.*;
 public class CourseController {
 
     private final CourseService courseService;
-    private final LecturerService lecturerService;
+    private final DriverService driverService;
 
     @Autowired
-    public CourseController(CourseService courseService, LecturerService lecturerService) {
+    public CourseController(CourseService courseService, DriverService driverService) {
         this.courseService = courseService;
-        this.lecturerService = lecturerService;
+        this.driverService = driverService;
     }
 
     @GetMapping("/")
@@ -48,14 +48,14 @@ public class CourseController {
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("course", new Course());
-        model.addAttribute("lecturers", lecturerService.getAllLecturers());
+        model.addAttribute("lecturers", driverService.getAllDrivers());
         return "courses_add";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable long id) {
         model.addAttribute("course", courseService.getCourse(id));
-        model.addAttribute("lecturers", lecturerService.getAllLecturers());
+        model.addAttribute("lecturers", driverService.getAllDrivers());
         return "courses_add";
     }
 

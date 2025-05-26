@@ -1,10 +1,10 @@
 package cz.uhk.grainweight.repository;
 
-import cz.uhk.grainweight.model.Lecturer;
+import cz.uhk.grainweight.model.Driver;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LecturerRepository extends JpaRepository<Lecturer, Long> {
+public interface DriverRepository extends JpaRepository<Driver, Long> {
 
 }
