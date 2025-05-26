@@ -8,12 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/lecturers")
-public class LecturerController {
+@RequestMapping("/drivers")
+public class DriverController {
     private final LecturerService lecturerService;
 
     @Autowired
-    public LecturerController(LecturerService lecturerService) {
+    public DriverController(LecturerService lecturerService) {
         this.lecturerService = lecturerService;
     }
 
