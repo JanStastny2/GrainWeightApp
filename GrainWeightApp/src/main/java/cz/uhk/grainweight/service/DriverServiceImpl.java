@@ -1,7 +1,6 @@
 package cz.uhk.grainweight.service;
 
 import cz.uhk.grainweight.model.Driver;
-import cz.uhk.grainweight.model.Lecturer;
 import cz.uhk.grainweight.repository.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

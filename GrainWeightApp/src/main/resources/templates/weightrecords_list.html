@@ -1,0 +1,85 @@
+<!-- templates/weightrecords_list.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Seznam vážení</title>
+</head>
+<body>
+<h1>Seznam záznamů vážení</h1>
+<a th:href="@{/weightrecords/new}">Přidat nové vážení</a>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Datum</th>
+        <th>Hrubá váha (kg)</th>
+        <th>Prázdná váha (kg)</th>
+        <th>Čistá váha (kg)</th>
+        <th>Řidič</th>
+        <th>Pole</th>
+        <th>Uživatel</th>
+        <th>Akce</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="rec : ${weightrecords}">
+        <td th:text="${rec.id}">1</td>
+        <td th:text="${#temporals.format(rec.date,'yyyy-MM-dd HH:mm')}">2025-05-26 12:00</td>
+        <td th:text="${rec.grossWeight}">0.0</td>
+        <td th:text="${rec.tareWeight}">0.0</td>
+        <td th:text="${rec.netWeight}">0.0</td>
+        <td th:text="${rec.driver.driverName}">Řidič</td>
+        <td th:text="${rec.field.name}">Pole</td>
+        <td th:text="${rec.createdBy.username}">User</td>
+        <td>
+            <a th:href="@{/weightrecords/edit/{id}(id=${rec.id})}">Upravit</a> |
+            <a th:href="@{/weightrecords/delete/{id}(id=${rec.id})}" onclick="return confirm('Opravdu smazat?');">Smazat</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html><!-- templates/weightrecords_list.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Seznam vážení</title>
+</head>
+<body>
+<h1>Seznam záznamů vážení</h1>
+<a th:href="@{/weightrecords/new}">Přidat nové vážení</a>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Datum</th>
+        <th>Hrubá váha (kg)</th>
+        <th>Prázdná váha (kg)</th>
+        <th>Čistá váha (kg)</th>
+        <th>Řidič</th>
+        <th>Pole</th>
+        <th>Uživatel</th>
+        <th>Akce</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="rec : ${weightrecords}">
+        <td th:text="${rec.id}">1</td>
+        <td th:text="${#temporals.format(rec.date,'yyyy-MM-dd HH:mm')}">2025-05-26 12:00</td>
+        <td th:text="${rec.grossWeight}">0.0</td>
+        <td th:text="${rec.tareWeight}">0.0</td>
+        <td th:text="${rec.netWeight}">0.0</td>
+        <td th:text="${rec.driver.driverName}">Řidič</td>
+        <td th:text="${rec.field.name}">Pole</td>
+        <td th:text="${rec.createdBy.username}">User</td>
+        <td>
+            <a th:href="@{/weightrecords/edit/{id}(id=${rec.id})}">Upravit</a> |
+            <a th:href="@{/weightrecords/delete/{id}(id=${rec.id})}" onclick="return confirm('Opravdu smazat?');">Smazat</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
