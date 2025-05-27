@@ -1,6 +1,6 @@
 <!-- templates/weightrecord_form.html -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8" />
     <title th:text="${weightrecord.id} != null ? 'Úprava vážení' : 'Nové vážení'"></title>
@@ -10,18 +10,29 @@
 <form method="post" th:action="@{/weightrecords/save}" th:object="${weightrecord}">
     <input type="hidden" th:field="*{id}" />
     <p>
-        Datum: <input type="datetime-local" th:field="*{date}" />
+        Datum:
+        <input type="datetime-local"
+               th:field="*{date}"
+               th:value="${weightrecord.date != null
+           ? #temporals.format(weightrecord.date,'yyyy-MM-dd''T''HH:mm')
+           : #temporals.format(T(java.time.LocalDateTime).now(),'yyyy-MM-dd''T''HH:mm')}" />
     </p>
     <p>
         Hrubá váha (kg): <input type="number" step="0.1" th:field="*{grossWeight}" />
     </p>
     <p>
-        Prázdná váha (kg): <input type="number" step="0.1" th:field="*{grossWeight}" />
+        Prázdná váha (kg):
+        <span id="tareWeightDisplay"></span>
+        <input type="hidden" th:field="*{tareWeight}" id="tareWeightHidden" />
     </p>
     <p>
         Řidič:
-        <select th:field="*{driver.id}">
-            <option th:each="drv : ${drivers}" th:value="${drv.id}" th:text="${drv.driverName}"></option>
+        <select th:field="*{driver.id}" id="driverSelect">
+            <option th:each="drv : ${drivers}"
+                    th:value="${drv.id}"
+                    th:text="${drv.driverName}"
+                    th:attr="data-tare=${drv.tareWeight}">
+            </option>
         </select>
     </p>
     <p>
@@ -31,15 +42,28 @@
         </select>
     </p>
     <p>
-        Uživatel:
-        <select th:field="*{createdBy.id}">
-            <option th:each="usr : ${users}" th:value="${usr.id}" th:text="${usr.username}"></option>
-        </select>
+        Uživatel: <strong th:text="${#authentication.name}">user</strong>
     </p>
     <p>
         <button type="submit">Uložit</button>
         <a th:href="@{/weightrecords}">Zpět</a>
     </p>
 </form>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    (function(){
+        const sel = document.getElementById('driverSelect');
+        const disp = document.getElementById('tareWeightDisplay');
+        const hid  = document.getElementById('tareWeightHidden');
+        function upd(){
+            const tare = sel.selectedOptions[0].getAttribute('data-tare');
+            disp.textContent = tare;
+            hid.value = tare;
+        }
+        sel.addEventListener('change', upd);
+        upd();
+    })();
+    /*]]>*/
+</script>
 </body>
 </html>

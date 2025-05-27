@@ -12,12 +12,6 @@ public class DefaultController {
         return "home";
     }
 
-    @GetMapping("/test")
-    @ResponseBody
-    public String test() {
-        return "<h1>Test</h1>";
-    }
-
     @GetMapping("/admin")
     public String admin() {
         return "admin";

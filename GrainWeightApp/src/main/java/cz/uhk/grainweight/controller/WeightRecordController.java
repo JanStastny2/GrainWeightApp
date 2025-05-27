@@ -1,11 +1,14 @@
 package cz.uhk.grainweight.controller;
 
+import cz.uhk.grainweight.model.Driver;
+import cz.uhk.grainweight.model.User;
 import cz.uhk.grainweight.model.WeightRecord;
 import cz.uhk.grainweight.service.WeightRecordService;
 import cz.uhk.grainweight.service.DriverService;
 import cz.uhk.grainweight.service.FieldService;
 import cz.uhk.grainweight.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,10 +47,16 @@ public class WeightRecordController {
     }
 
     @PostMapping("/save")
-    public String saveWeightRecord(@ModelAttribute("weightrecord") WeightRecord weightRecord) {
+    public String saveWeightRecord(@ModelAttribute WeightRecord weightRecord, Authentication authentication) {
+
+        User user = userService.findByUsername(authentication.getName());
+        weightRecord.setCreatedBy(user);
+        Driver driver = driverService.getDriver(weightRecord.getDriver().getId());
+        weightRecord.setTareWeight(driver.getTareWeight());
         weightRecordService.saveWeightRecord(weightRecord);
         return "redirect:/weightrecords";
     }
+
 
     @GetMapping("/delete/{id}")
     public String showCreateForm(@PathVariable Long id) {

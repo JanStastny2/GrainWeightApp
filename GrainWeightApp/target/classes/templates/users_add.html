@@ -8,10 +8,14 @@
 <h1 th:text="${user.id == 0 ? 'New User' : 'Edit User'}"></h1>
 
 <form method="post" th:action="@{/users/save}" th:object="${user}">
-    <input type="hidden" th:field="*{id}">
-    Name: <input type="text" th:field="*{name}">
-    <input type="submit" value="Save">
+    <input type="hidden" th:field="*{id}" />
+    <p>Jméno: <input type="text" th:field="*{name}" /></p>
+    <p>Uživatelské jméno: <input type="text" th:field="*{username}" /></p>
+    <p>Heslo: <input type="password" th:field="*{password}" /></p>
+    <input type="hidden" th:field="*{role}" value="USER" />
+    <button type="submit">Uložit</button>
 </form>
+
 
 </body>
 </html>

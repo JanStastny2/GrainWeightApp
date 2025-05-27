@@ -15,6 +15,7 @@ public class Driver {
     private String licencePlate;
     private String contact;
 
+
     public long getId() {
         return id;
     }
@@ -54,4 +55,5 @@ public class Driver {
     public void setContact(String contact) {
         this.contact = contact;
     }
+
 }

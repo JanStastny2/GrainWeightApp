@@ -28,8 +28,8 @@
         <td th:text="${rec.id}">1</td>
         <td th:text="${#temporals.format(rec.date,'yyyy-MM-dd HH:mm')}">2025-05-26 12:00</td>
         <td th:text="${rec.grossWeight}">0.0</td>
-        <td th:text="${rec.grossWeight}">0.0</td>
-        <td th:text="${rec.grossWeight}">0.0</td>
+        <td th:text="${rec.tareWeight}">0.0</td>
+        <td th:text="${rec.grossWeight - rec.tareWeight}">0.0</td>
         <td th:text="${rec.driver.driverName}">Řidič</td>
         <td th:text="${rec.field.name}">Pole</td>
         <td th:text="${rec.createdBy.username}">User</td>

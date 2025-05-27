@@ -13,6 +13,8 @@ public class WeightRecord {
 
     private LocalDateTime date;
     private Double grossWeight;
+    @Column(name = "tare_weight")
+    private Double tareWeight;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -25,6 +27,7 @@ public class WeightRecord {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "driver_id")
     private Driver driver;
+
 
     // Gettery a settery
     public long getId() {
@@ -73,5 +76,13 @@ public class WeightRecord {
 
     public void setDriver(Driver driver) {
         this.driver = driver;
+    }
+
+    public Double getTareWeight() {
+        return tareWeight;
+    }
+
+    public void setTareWeight(Double tareWeight) {
+        this.tareWeight = tareWeight;
     }
 }
