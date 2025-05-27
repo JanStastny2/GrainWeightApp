@@ -17,7 +17,7 @@ public class DriverController {
         this.driverService = driverService;
     }
 
-    @GetMapping("/")
+    @GetMapping(path = { "", "/" })
     public String list(Model model) {
         model.addAttribute("drivers", driverService.getAllDrivers());
         return "drivers_list";

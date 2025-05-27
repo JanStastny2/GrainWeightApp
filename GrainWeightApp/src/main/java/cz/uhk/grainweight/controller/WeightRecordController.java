@@ -28,7 +28,7 @@ public class WeightRecordController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping(path = { "", "/" })
     public String listWeightRecords(Model model) {
         model.addAttribute("weightecords", weightRecordService.getAllWeightRecords());
         return "weightrecords_list";
@@ -46,13 +46,13 @@ public class WeightRecordController {
     @PostMapping("/save")
     public String saveWeightRecord(@ModelAttribute("weightrecord") WeightRecord weightRecord) {
         weightRecordService.saveWeightRecord(weightRecord);
-        return "redirect:/records";
+        return "redirect:/weightrecords";
     }
 
-    @GetMapping("/delete")
+    @GetMapping("/delete/{id}")
     public String showCreateForm(@PathVariable Long id) {
         weightRecordService.deleteWeightRecord(id);
-        return "redirect:/records";
+        return "redirect:/weightrecords";
     }
 
     @GetMapping("/edit/{id}")

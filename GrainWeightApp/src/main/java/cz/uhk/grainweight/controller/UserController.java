@@ -18,7 +18,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
+    @GetMapping(path = { "", "/" })
     public String list(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         return "users_list";

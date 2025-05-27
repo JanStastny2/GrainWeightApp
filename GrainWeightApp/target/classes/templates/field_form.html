@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${field.id} != null ? 'Úprava pole' : 'Nové pole'"></title>
+</head>
+<body>
+<h1 th:text="${field.id} != null ? 'Úprava pole' : 'Nové pole'"></h1>
+<form method="post" th:action="@{/fields/save}" th:object="${field}">
+    <input type="hidden" th:field="*{id}" />
+    <p>
+        Název: <input type="text" th:field="*{name}" />
+    </p>
+    <p>
+        Rozloha (ha): <input type="number" step="0.1" th:field="*{area}" />
+    </p>
+    <p>
+        Lokace: <input type="text" th:field="*{location}" />
+    </p>
+    <p>
+        <button type="submit">Uložit</button>
+        <a th:href="@{/fields}">Zpět</a>
+    </p>
+</form>
+</body>
+</html>

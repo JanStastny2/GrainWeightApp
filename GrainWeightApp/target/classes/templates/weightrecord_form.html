@@ -1,0 +1,45 @@
+<!-- templates/weightrecord_form.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${weightrecord.id} != null ? 'Úprava vážení' : 'Nové vážení'"></title>
+</head>
+<body>
+<h1 th:text="${weightrecord.id} != null ? 'Úprava vážení' : 'Nové vážení'"></h1>
+<form method="post" th:action="@{/weightrecords/save}" th:object="${weightrecord}">
+    <input type="hidden" th:field="*{id}" />
+    <p>
+        Datum: <input type="datetime-local" th:field="*{date}" />
+    </p>
+    <p>
+        Hrubá váha (kg): <input type="number" step="0.1" th:field="*{grossWeight}" />
+    </p>
+    <p>
+        Prázdná váha (kg): <input type="number" step="0.1" th:field="*{grossWeight}" />
+    </p>
+    <p>
+        Řidič:
+        <select th:field="*{driver.id}">
+            <option th:each="drv : ${drivers}" th:value="${drv.id}" th:text="${drv.driverName}"></option>
+        </select>
+    </p>
+    <p>
+        Pole:
+        <select th:field="*{field.id}">
+            <option th:each="fld : ${fields}" th:value="${fld.id}" th:text="${fld.name}"></option>
+        </select>
+    </p>
+    <p>
+        Uživatel:
+        <select th:field="*{createdBy.id}">
+            <option th:each="usr : ${users}" th:value="${usr.id}" th:text="${usr.username}"></option>
+        </select>
+    </p>
+    <p>
+        <button type="submit">Uložit</button>
+        <a th:href="@{/weightrecords}">Zpět</a>
+    </p>
+</form>
+</body>
+</html>

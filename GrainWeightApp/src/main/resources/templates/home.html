@@ -1,26 +1,42 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>My Demo App</title>
+    <title>Grain Weight App</title>
 </head>
 <body>
-<h1>My Demo App</h1>
+<header>
+    <h1>Grain Weight App</h1>
+    <p>Vítej, <strong th:text="${#authentication.name}"></strong>!</p>
+    <nav>
+        <ul>
+            <li><a th:href="@{/sessions/new}">Nová session vážení</a></li>
+            <li><a th:href="@{/weightrecords/}">Seznam vážení</a></li>
+            <li><a th:href="@{/weightrecords/new}">Nové vážení</a></li>
+            <li><a th:href="@{/fields/}">Pole</a></li>
+            <li><a th:href="@{/drivers/}">Řidiči</a></li>
+            <li><a th:href="@{/users/}">Uživatelé</a></li>
+            <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin}">Admin sekce</a></li>
+            <li>
+                <form th:action="@{/logout}" method="post" style="display:inline">
+                    <button type="submit">Odhlásit se</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
 
-<h3 th:text="${#authentication.name}"></h3>
-
-<a th:href="@{/users/}">List of Users</a>
-<a th:href="@{/drivers/}">List of Drivers</a>
-<a th:href="@{/courses/}">List of Courses</a>
-
-<br><br>
-<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">Admin section, here you can edit users and do some other stuff</a>
-<br><br>
-
-<form method="post" th:action="@{/logout}">
-    <input type="submit" value="Logout">
-</form>
-
+<main>
+    <section>
+        <h2>Rychlé odkazy</h2>
+        <ul>
+            <li><a th:href="@{/sessions/new}">Začít vážicí session</a></li>
+            <li><a th:href="@{/weightrecords}">Prohlédnout vážení</a></li>
+            <li><a th:href="@{/fields}">Správa polí</a></li>
+            <li><a th:href="@{/drivers}">Správa řidičů</a></li>
+            <li><a th:href="@{/users}">Správa uživatelů</a></li>
+        </ul>
+    </section>
+</main>
 </body>
 </html>
-

@@ -18,7 +18,7 @@ public class FieldController {
         this.fieldService = fieldService;
     }
 
-    @GetMapping
+    @GetMapping(path = { "", "/" })
     public String listFields(Model model) {
         model.addAttribute("fields", fieldService.getAllFields());
         return "fields_list";
