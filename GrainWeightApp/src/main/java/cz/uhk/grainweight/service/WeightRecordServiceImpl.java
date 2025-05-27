@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class WeightRecordServiceImpl implements WeighingRecordService {
+public class WeightRecordServiceImpl implements WeightRecordService {
 
     private final WeightRecordRepository weightRecordRepository;
 

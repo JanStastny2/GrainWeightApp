@@ -1,0 +1,68 @@
+package cz.uhk.grainweight.controller;
+
+import cz.uhk.grainweight.model.WeightRecord;
+import cz.uhk.grainweight.service.WeightRecordService;
+import cz.uhk.grainweight.service.DriverService;
+import cz.uhk.grainweight.service.FieldService;
+import cz.uhk.grainweight.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+
+@Controller
+@RequestMapping("/weightrecords")
+public class WeightRecordController {
+
+    private final WeightRecordService weightRecordService;
+    private final DriverService driverService;
+    private final FieldService fieldService;
+    private final UserService userService;
+
+    @Autowired
+    public WeightRecordController(WeightRecordService weightRecordService, DriverService driverService, FieldService fieldService, UserService userService) {
+        this.weightRecordService = weightRecordService;
+        this.driverService = driverService;
+        this.fieldService = fieldService;
+        this.userService = userService;
+    }
+
+    @GetMapping
+    public String listWeightRecords(Model model) {
+        model.addAttribute("weightecords", weightRecordService.getAllWeightRecords());
+        return "weightrecords_list";
+    }
+
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("weightrecord", new WeightRecord());
+        model.addAttribute("drivers", driverService.getAllDrivers());
+        model.addAttribute("fields", fieldService.getAllFields());
+        model.addAttribute("users", userService.getAllUsers());
+        return "weightrecord_form";
+    }
+
+    @PostMapping("/save")
+    public String saveWeightRecord(@ModelAttribute("weightrecord") WeightRecord weightRecord) {
+        weightRecordService.saveWeightRecord(weightRecord);
+        return "redirect:/records";
+    }
+
+    @GetMapping("/delete")
+    public String showCreateForm(@PathVariable Long id) {
+        weightRecordService.deleteWeightRecord(id);
+        return "redirect:/records";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        WeightRecord weightRecord = weightRecordService.getWeightRecord(id);
+        model.addAttribute("weightrecord", weightRecord);
+        model.addAttribute("drivers", driverService.getAllDrivers());
+        model.addAttribute("fields", fieldService.getAllFields());
+        model.addAttribute("users", userService.getAllUsers());
+        return "weightrecord_form";
+    }
+
+}

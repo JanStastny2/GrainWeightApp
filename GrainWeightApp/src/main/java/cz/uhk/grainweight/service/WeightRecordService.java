@@ -3,11 +3,7 @@ package cz.uhk.grainweight.service;
 import cz.uhk.grainweight.model.WeightRecord;
 import java.util.List;
 
-public interface WeighingRecordService {
-    List<WeightRecord> getAllWeighingRecords();
-    WeightRecord getWeighingRecordById(Long id);
-    WeightRecord saveWeighingRecord(WeightRecord weighingRecord);
-    void deleteWeightRecord(long id);
+public interface WeightRecordService {
 
     List<WeightRecord> getAllWeightRecords();
 
