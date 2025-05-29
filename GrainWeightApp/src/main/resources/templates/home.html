@@ -10,12 +10,11 @@
     <p>Vítej, <strong th:text="${#authentication.name}"></strong>!</p>
     <nav>
         <ul>
-            <li><a th:href="@{/sessions/new}">Nová session vážení</a></li>
             <li><a th:href="@{/weightrecords/}">Seznam vážení</a></li>
             <li><a th:href="@{/weightrecords/new}">Nové vážení</a></li>
             <li><a th:href="@{/fields/}">Pole</a></li>
             <li><a th:href="@{/drivers/}">Řidiči</a></li>
-            <li><a th:href="@{/users/}">Uživatelé</a></li>
+            <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/users/}">Uživatelé</a></li>
             <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin}">Admin sekce</a></li>
             <li>
                 <form th:action="@{/logout}" method="post" style="display:inline">
@@ -30,7 +29,6 @@
     <section>
         <h2>Rychlé odkazy</h2>
         <ul>
-            <li><a th:href="@{/sessions/new}">Začít vážicí session</a></li>
             <li><a th:href="@{/weightrecords}">Prohlédnout vážení</a></li>
             <li><a th:href="@{/fields}">Správa polí</a></li>
             <li><a th:href="@{/drivers}">Správa řidičů</a></li>

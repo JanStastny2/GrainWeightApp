@@ -3,9 +3,12 @@ package cz.uhk.grainweight.controller;
 import cz.uhk.grainweight.model.Driver;
 import cz.uhk.grainweight.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @Controller
 @RequestMapping("/drivers")

@@ -38,7 +38,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests // Change to authorizeHttpRequests
                         .requestMatchers("/", "/home").authenticated()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/users/**").hasRole("ADMIN")
+                        .requestMatchers("/fields/**").hasRole("ADMIN")
                         .requestMatchers("/rest/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/rest/**").permitAll()
                         .anyRequest().authenticated()

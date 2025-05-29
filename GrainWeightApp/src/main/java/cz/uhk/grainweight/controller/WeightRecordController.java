@@ -33,7 +33,7 @@ public class WeightRecordController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
+    @GetMapping(path = { "", "/" })
     public String listWeightRecords(Model model) {
         model.addAttribute("weightrecords", weightRecordService.getAllWeightRecords());
         return "weightrecords_list";
