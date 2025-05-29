@@ -9,9 +9,9 @@
 
 <form method="post" th:action="@{/users/save}" th:object="${user}">
     <input type="hidden" th:field="*{id}" />
-    <p>Jméno: <input type="text" th:field="*{name}" /></p>
-    <p>Uživatelské jméno: <input type="text" th:field="*{username}" /></p>
-    <p>Heslo: <input type="password" th:field="*{password}" /></p>
+    <p>Jméno: <input type="text" th:field="*{name}"  required/></p>
+    <p>Uživatelské jméno: <input type="text" th:field="*{username}" required /></p>
+    <p>Heslo: <input type="password" th:field="*{password}" required /></p>
     <input type="hidden" th:field="*{role}" value="USER" />
     <button type="submit">Uložit</button>
 </form>

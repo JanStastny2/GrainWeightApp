@@ -30,9 +30,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new IllegalArgumentException("Uživatelské jméno již existuje");
+        }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
+
 
     @Override
     public User getUser(long id) {
