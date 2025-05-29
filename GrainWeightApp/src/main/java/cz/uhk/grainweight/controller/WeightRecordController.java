@@ -1,77 +1,81 @@
 package cz.uhk.grainweight.controller;
 
-import cz.uhk.grainweight.model.Driver;
+import cz.uhk.grainweight.model.Field;
 import cz.uhk.grainweight.model.User;
 import cz.uhk.grainweight.model.WeightRecord;
-import cz.uhk.grainweight.service.WeightRecordService;
-import cz.uhk.grainweight.service.DriverService;
 import cz.uhk.grainweight.service.FieldService;
 import cz.uhk.grainweight.service.UserService;
+import cz.uhk.grainweight.service.WeightRecordService;
+import cz.uhk.grainweight.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/weightrecords")
 public class WeightRecordController {
 
-    private final WeightRecordService weightRecordService;
-    private final DriverService driverService;
-    private final FieldService fieldService;
-    private final UserService userService;
+    @Autowired
+    private WeightRecordService weightRecordService;
 
     @Autowired
-    public WeightRecordController(WeightRecordService weightRecordService, DriverService driverService, FieldService fieldService, UserService userService) {
-        this.weightRecordService = weightRecordService;
-        this.driverService = driverService;
-        this.fieldService = fieldService;
-        this.userService = userService;
-    }
+    private FieldService fieldService;
 
-    @GetMapping(path = { "", "/" })
+    @Autowired
+    private DriverService driverService;
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping
     public String listWeightRecords(Model model) {
-        model.addAttribute("weightecords", weightRecordService.getAllWeightRecords());
+        model.addAttribute("weightrecords", weightRecordService.getAllWeightRecords());
         return "weightrecords_list";
     }
 
     @GetMapping("/new")
-    public String showCreateForm(Model model) {
+    public String newWeightRecordForm(Model model) {
         model.addAttribute("weightrecord", new WeightRecord());
-        model.addAttribute("drivers", driverService.getAllDrivers());
         model.addAttribute("fields", fieldService.getAllFields());
-        model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("drivers", driverService.getAllDrivers());
         return "weightrecord_form";
     }
 
     @PostMapping("/save")
-    public String saveWeightRecord(@ModelAttribute WeightRecord weightRecord, Authentication authentication) {
+    public String save(@ModelAttribute("weightrecord") WeightRecord record,
+                       @AuthenticationPrincipal UserDetails userDetails) {
 
-        User user = userService.findByUsername(authentication.getName());
-        weightRecord.setCreatedBy(user);
-        Driver driver = driverService.getDriver(weightRecord.getDriver().getId());
-        weightRecord.setTareWeight(driver.getTareWeight());
-        weightRecordService.saveWeightRecord(weightRecord);
-        return "redirect:/weightrecords";
-    }
+        // Získání přihlášeného uživatele
+        User user = userService.findByUsername(userDetails.getUsername());
+        record.setCreatedBy(user);
 
+        // Pokud není datum vyplněno, nastav aktuální
+        if (record.getDate() == null) {
+            record.setDate(LocalDateTime.now());
+        }
 
-    @GetMapping("/delete/{id}")
-    public String showCreateForm(@PathVariable Long id) {
-        weightRecordService.deleteWeightRecord(id);
+        weightRecordService.saveWeightRecord(record);
         return "redirect:/weightrecords";
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Long id, Model model) {
-        WeightRecord weightRecord = weightRecordService.getWeightRecord(id);
-        model.addAttribute("weightrecord", weightRecord);
-        model.addAttribute("drivers", driverService.getAllDrivers());
+    public String edit(@PathVariable Long id, Model model) {
+        WeightRecord record = weightRecordService.getWeightRecord(id);
+        model.addAttribute("weightrecord", record);
         model.addAttribute("fields", fieldService.getAllFields());
-        model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("drivers", driverService.getAllDrivers());
         return "weightrecord_form";
     }
 
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        weightRecordService.deleteWeightRecord(id);
+        return "redirect:/weightrecords";
+    }
 }

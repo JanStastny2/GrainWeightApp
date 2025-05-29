@@ -18,23 +18,28 @@
            : #temporals.format(T(java.time.LocalDateTime).now(),'yyyy-MM-dd''T''HH:mm')}" />
     </p>
     <p>
-        Hrubá váha (kg): <input type="number" step="0.1" th:field="*{grossWeight}" />
+        Hrubá váha (kg): <input type="number" step="100" th:field="*{grossWeight}" value="1000" />
     </p>
     <p>
         Prázdná váha (kg):
         <span id="tareWeightDisplay"></span>
-        <input type="hidden" th:field="*{tareWeight}" id="tareWeightHidden" />
+        <input type="hidden" th:field="*{tareWeight}" id="tareWeightInput" required />
     </p>
     <p>
         Řidič:
-        <select th:field="*{driver.id}" id="driverSelect">
+        <select id="driverSelect">
             <option th:each="drv : ${drivers}"
-                    th:value="${drv.id}"
+                    th:value="${drv.driverName}"
                     th:text="${drv.driverName}"
-                    th:attr="data-tare=${drv.tareWeight}">
+                    th:attr="data-plate=${drv.licencePlate},data-tare=${drv.tareWeight}">
             </option>
         </select>
     </p>
+
+    <!-- přidaná skrytá pole pro driverName a licencePlate -->
+    <input type="hidden" th:field="*{driverName}"   id="driverNameInput" />
+    <input type="hidden" th:field="*{licencePlate}" id="licencePlateInput" />
+
     <p>
         Pole:
         <select th:field="*{field.id}">
@@ -52,16 +57,22 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     (function(){
-        const sel = document.getElementById('driverSelect');
-        const disp = document.getElementById('tareWeightDisplay');
-        const hid  = document.getElementById('tareWeightHidden');
-        function upd(){
-            const tare = sel.selectedOptions[0].getAttribute('data-tare');
-            disp.textContent = tare;
-            hid.value = tare;
+        const select = document.getElementById('driverSelect');
+        const plateInput = document.getElementById('licencePlateInput');
+        const tareInput = document.getElementById('tareWeightInput');
+        const nameInput = document.getElementById('driverNameInput');
+        const display = document.getElementById('tareWeightDisplay');
+
+        function updateFields() {
+            const selected = select.options[select.selectedIndex];
+            nameInput.value = selected.value;
+            plateInput.value = selected.getAttribute('data-plate');
+            tareInput.value = selected.getAttribute('data-tare');
+            display.textContent = selected.getAttribute('data-tare');
         }
-        sel.addEventListener('change', upd);
-        upd();
+
+        select.addEventListener('change', updateFields);
+        updateFields();
     })();
     /*]]>*/
 </script>

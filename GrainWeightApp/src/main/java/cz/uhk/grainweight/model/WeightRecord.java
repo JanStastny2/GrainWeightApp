@@ -16,6 +16,10 @@ public class WeightRecord {
     @Column(name = "tare_weight")
     private Double tareWeight;
 
+    private String driverName;
+    private String licencePlate;
+    private String driverContact;
+
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User createdBy;
@@ -23,10 +27,6 @@ public class WeightRecord {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "field_id")
     private Field field;
-
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "driver_id")
-    private Driver driver;
 
 
     // Gettery a settery
@@ -70,19 +70,35 @@ public class WeightRecord {
         this.field = field;
     }
 
-    public Driver getDriver() {
-        return driver;
-    }
-
-    public void setDriver(Driver driver) {
-        this.driver = driver;
-    }
-
     public Double getTareWeight() {
         return tareWeight;
     }
 
     public void setTareWeight(Double tareWeight) {
         this.tareWeight = tareWeight;
+    }
+
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
+    }
+
+    public String getLicencePlate() {
+        return licencePlate;
+    }
+
+    public void setLicencePlate(String licencePlate) {
+        this.licencePlate = licencePlate;
+    }
+
+    public String getDriverContact() {
+        return driverContact;
+    }
+
+    public void setDriverContact(String driverContact) {
+        this.driverContact = driverContact;
     }
 }
