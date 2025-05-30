@@ -11,7 +11,7 @@ public class Driver {
     private long id;
 
     private String driverName;
-    private Double tareWeight;
+    private int tareWeight;
     private String licencePlate;
     private String contact;
 
@@ -32,11 +32,11 @@ public class Driver {
         this.driverName = driverName;
     }
 
-    public Double getTareWeight() {
+    public int getTareWeight() {
         return tareWeight;
     }
 
-    public void setTareWeight(Double tareWeight) {
+    public void setTareWeight(int tareWeight) {
         this.tareWeight = tareWeight;
     }
 

@@ -31,10 +31,10 @@ class WeightRecordServiceImplTest {
         // Arrange
         WeightRecord r1 = new WeightRecord();
         r1.setId(1L);
-        r1.setGrossWeight(100.0);
+        r1.setGrossWeight(100);
         WeightRecord r2 = new WeightRecord();
         r2.setId(2L);
-        r2.setGrossWeight(200.0);
+        r2.setGrossWeight(200);
         when(weightRecordRepository.findAll()).thenReturn(Arrays.asList(r1, r2));
 
         // Act
@@ -67,7 +67,7 @@ class WeightRecordServiceImplTest {
         // Arrange
         WeightRecord record = new WeightRecord();
         record.setId(1L);
-        record.setGrossWeight(150.0);
+        record.setGrossWeight(150);
         when(weightRecordRepository.findById(1L)).thenReturn(Optional.of(record));
 
         // Act
@@ -97,10 +97,10 @@ class WeightRecordServiceImplTest {
     void testSaveWeightRecord_savesAndReturnsRecord() {
         // Arrange
         WeightRecord record = new WeightRecord();
-        record.setGrossWeight(120.0);
+        record.setGrossWeight(120);
         WeightRecord saved = new WeightRecord();
         saved.setId(3L);
-        saved.setGrossWeight(120.0);
+        saved.setGrossWeight(120);
         when(weightRecordRepository.save(record)).thenReturn(saved);
 
         // Act

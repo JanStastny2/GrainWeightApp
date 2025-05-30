@@ -12,9 +12,9 @@ public class WeightRecord {
     private long id;
 
     private LocalDateTime date;
-    private Double grossWeight;
+    private int grossWeight;
     @Column(name = "tare_weight")
-    private Double tareWeight;
+    private int tareWeight;
 
     private String driverName;
     private String licencePlate;
@@ -46,11 +46,11 @@ public class WeightRecord {
         this.date = date;
     }
 
-    public Double getGrossWeight() {
+    public int getGrossWeight() {
         return grossWeight;
     }
 
-    public void setGrossWeight(Double grossWeight) {
+    public void setGrossWeight(int grossWeight) {
         this.grossWeight = grossWeight;
     }
 
@@ -70,11 +70,11 @@ public class WeightRecord {
         this.field = field;
     }
 
-    public Double getTareWeight() {
+    public int getTareWeight() {
         return tareWeight;
     }
 
-    public void setTareWeight(Double tareWeight) {
+    public void setTareWeight(int tareWeight) {
         this.tareWeight = tareWeight;
     }
 

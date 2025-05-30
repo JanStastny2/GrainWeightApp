@@ -37,8 +37,8 @@ public class GrainWeightApp {
             addUser("Admin", "admin", "heslo", "ADMIN");
 
             // Inicializace řidičů
-            addDriver("Jan Novák", 5000.0, "ABC-1234", "jan.novak@example.com");
-            addDriver("Petr Svoboda", 5200.0, "XYZ-5678", "petr.svoboda@example.com");
+            addDriver("Jan Novák", 5000, "ABC-1234", "jan.novak@example.com");
+            addDriver("Petr Svoboda", 5200, "XYZ-5678", "petr.svoboda@example.com");
 
             // Inicializace polí
             addField("Pole 1", 15.2, "Severní okraj farmy");
@@ -55,7 +55,7 @@ public class GrainWeightApp {
         userService.saveUser(user);
     }
 
-    private void addDriver(String name, Double tareWeight, String licencePlate, String contact) {
+    private void addDriver(String name, int tareWeight, String licencePlate, String contact) {
         Driver driver = new Driver();
         driver.setDriverName(name);
         driver.setTareWeight(tareWeight);

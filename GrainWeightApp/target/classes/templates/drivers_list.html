@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My Demo App</title>
+    <title></title>
 </head>
 <body>
 <h1>List of Drivers</h1>
@@ -10,46 +10,15 @@
 <a th:href="@{/drivers/add}">Add New Driver</a>
 <a th:href="@{/home}">Back to Home</a>
 
+
 <ul>
     <li th:each="driver : ${drivers}">
         <a th:href="@{/drivers/{id}(id=${driver.id})}"
            th:text="${driver.driverName}">Řidič</a>
         &nbsp;|&nbsp;
-        Prázdná váha:
-        <input type="number"
-               th:id="'tare-' + ${driver.id}"
-               th:value="${driver.tareWeight}"
-               min="0"
-               step="100"
-               onchange="updateTare(this)" /> kg
-        <span id="status-[[${driver.id}]]"></span>
+        Prázdná váha: <a th:text="${driver.tareWeight}+' kg'"></a>
     </li>
 </ul>
 
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    function updateTare(input) {
-        const driverId = input.id.split('-')[1];
-        const tare = input.value;
-        const statusEl = document.getElementById('status-' + driverId);
-
-        fetch(/*[[ @{/api/drivers/} ]]*/ + driverId + '/tare', {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ tareWeight: tare })
-        })
-            .then(response => {
-                if (response.ok) {
-                    statusEl.textContent = ' Uloženo';
-                } else {
-                    statusEl.textContent = ' Chyba!';
-                }
-            })
-            .catch(() => {
-                statusEl.textContent = ' Chyba sítě!';
-            });
-    }
-    /*]]>*/
-</script>
 </body>
 </html>
