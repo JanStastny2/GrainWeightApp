@@ -1,36 +1,93 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8" />
-    <title>Seznam polí</title>
+    <title>Seznam polí – Grain Weight App</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1>Seznam polí</h1>
-<a th:href="@{/fields/new}">Přidat nové pole</a>
-<a th:href="@{/home}">Back to Home</a>
 
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Název</th>
-        <th>Rozloha (ha)</th>
-        <th>Lokace</th>
-        <th>Akce</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="fld : ${fields}">
-        <td th:text="${fld.id}">1</td>
-        <td th:text="${fld.name}">Pole A</td>
-        <td th:text="${fld.area}">10.5</td>
-        <td th:text="${fld.location}">Severní okraj</td>
-        <td>
-            <a th:href="@{/fields/edit/{id}(id=${fld.id})}">Upravit</a> |
-            <a th:href="@{/fields/delete/{id}(id=${fld.id})}" onclick="return confirm('Opravdu smazat?');">Smazat</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<main class="container main-content">
+    <!-- Nadpis stránky -->
+    <h2 class="page-heading">Seznam polí</h2>
+
+    <div class="buttons-wrapper">
+        <div sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/fields/new}">
+                <button class="btn-add">+ Přidat nové pole</button>
+            </a>
+        </div>
+        <a th:href="@{/home}">
+            <button class="btn-back">← Zpět na domovskou stránku</button>
+        </a>
+    </div>
+
+
+    <!-- Tabulka polí -->
+    <div class="list-container">
+        <table class="list-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Název</th>
+                <th>Rozloha (ha)</th>
+                <th>Lokace</th>
+                <th sec:authorize="hasRole('ADMIN')">Akce</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Pro ADMINA: klikací řádky + mazání -->
+            <tr th:each="fld : ${fields}"
+                th:attr="data-href=@{'/fields/edit/' + ${fld.id}}"
+                class="clickable-row"
+                sec:authorize="hasRole('ADMIN')">
+                <td th:text="${fld.id}">1</td>
+                <td th:text="${fld.name}">Pole A</td>
+                <td th:text="${fld.area}">10.5</td>
+                <td th:text="${fld.location}">Severní okraj</td>
+                <td class="non-clickable">
+                    <a th:href="@{/fields/delete/{id}(id=${fld.id})}"
+                       onclick="return confirm('Opravdu chcete smazat toto pole?');">
+                        Smazat
+                    </a>
+                </td>
+            </tr>
+
+            <!-- Pro USERA: neklikací řádky bez sloupce Akce -->
+            <tr th:each="fld : ${fields}" sec:authorize="!hasRole('ADMIN')">
+                <td th:text="${fld.id}">1</td>
+                <td th:text="${fld.name}">Pole A</td>
+                <td th:text="${fld.area}">10.5</td>
+                <td th:text="${fld.location}">Severní okraj</td>
+            </tr>
+            </tbody>
+
+
+        </table>
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>© 2025 Grain Weight App — Všechna práva vyhrazena.</p>
+    </div>
+</footer>
+
+<!-- Klikací řádky s výjimkou buňky "Akce" -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".clickable-row").forEach(row => {
+            row.addEventListener("click", function (event) {
+                if (event.target.closest(".non-clickable")) return;
+
+                const href = row.getAttribute("data-href");
+                if (href) {
+                    window.location.href = href;
+                }
+            });
+        });
+    });
+</script>
+
 </body>
 </html>

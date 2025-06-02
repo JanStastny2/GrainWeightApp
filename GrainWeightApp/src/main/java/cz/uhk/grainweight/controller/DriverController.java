@@ -26,22 +26,10 @@ public class DriverController {
         return "drivers_list";
     }
 
-    @GetMapping("/{id}")
-    public String detail(Model model, @PathVariable long id) {
-        model.addAttribute("driver", driverService.getDriver(id));
-        return "drivers_detail";
-    }
-
-    @GetMapping("/{id}/delete")
-    public String delete(Model model, @PathVariable long id) {
-        model.addAttribute("driver", driverService.getDriver(id));
-        return "drivers_delete";
-    }
-
-    @PostMapping("/{id}/delete")
-    public String deleteConfirm(Model model, @PathVariable long id) {
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
         driverService.deleteDriver(id);
-        return "redirect:/drivers/";
+        return "redirect:/drivers";
     }
 
     @GetMapping("/add")
@@ -50,7 +38,7 @@ public class DriverController {
         return "drivers_add";
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping("/edit/{id}")
     public String edit(Model model, @PathVariable long id) {
         model.addAttribute("driver", driverService.getDriver(id));
         return "drivers_add";

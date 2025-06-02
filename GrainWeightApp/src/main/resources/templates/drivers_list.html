@@ -1,24 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Seznam řidičů – Grain Weight App</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1>List of Drivers</h1>
 
-<a th:href="@{/drivers/add}">Add New Driver</a>
-<a th:href="@{/home}">Back to Home</a>
+<main class="container main-content">
+    <!-- Nadpis stránky -->
+    <h2 class="page-heading">Seznam řidičů</h2>
 
+    <!-- Dvě tlačítka: Přidat a Zpět -->
+    <div class="buttons-wrapper">
+        <a th:href="@{/drivers/add}">
+            <button class="btn-add">+ Přidat řidiče</button>
+        </a>
+        <a th:href="@{/home}">
+            <button class="btn-back">← Zpět na domovskou stránku</button>
+        </a>
+    </div>
 
-<ul>
-    <li th:each="driver : ${drivers}">
-        <a th:href="@{/drivers/{id}(id=${driver.id})}"
-           th:text="${driver.driverName}">Řidič</a>
-        &nbsp;|&nbsp;
-        Prázdná váha: <a th:text="${driver.tareWeight}+' kg'"></a>
-    </li>
-</ul>
+    <!-- Tabulka řidičů -->
+    <div class="list-container">
+        <table class="list-table">
+            <thead>
+            <tr>
+                <th>Jméno řidiče</th>
+                <th>Prázdná váha</th>
+                <th>Akce</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="driver : ${drivers}"
+                th:attr="data-href=@{'/drivers/edit/' + ${driver.id}}"
+                class="clickable-row">
+                <td th:text="${driver.driverName}">Řidič</td>
+                <td th:text="${driver.tareWeight} + ' kg'">0 kg</td>
+                <td class="non-clickable">
+                    <a th:href="@{/drivers/delete/{id}(id=${driver.id})}"
+                       onclick="return confirm('Opravdu chcete odstranit tohoto řidiče?');">
+                        Odstranit
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>© 2025 Grain Weight App — Všechna práva vyhrazena.</p>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".clickable-row").forEach(row => {
+            row.addEventListener("click", function (event) {
+                if (event.target.closest(".non-clickable")) return;
+                const href = row.getAttribute("data-href");
+                if (href) {
+                    window.location.href = href;
+                }
+            });
+        });
+    });
+</script>
 
 </body>
 </html>

@@ -1,21 +1,30 @@
 package cz.uhk.grainweight.controller;
 
 import cz.uhk.grainweight.model.User;
+import cz.uhk.grainweight.model.WeightRecord;
 import cz.uhk.grainweight.service.UserService;
+import cz.uhk.grainweight.service.WeightRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    private WeightRecordService weightRecordService;
+
+    @Autowired
+    public UserController(UserService userService, WeightRecordService weightRecordService) {
         this.userService = userService;
+        this.weightRecordService = weightRecordService;
     }
 
     @GetMapping(path = { "", "/" })
@@ -24,21 +33,16 @@ public class UserController {
         return "users_list";
     }
 
-    @GetMapping("/{id}")
-    public String detail(Model model, @PathVariable long id) {
-        model.addAttribute("user", userService.getUser(id));
-        return "users_detail";
+    @GetMapping("/users/2")
+    public String showUserDetail() {
+        return "redirect:/drivers/";
     }
 
-    @GetMapping("/{id}/delete")
-    public String delete(Model model, @PathVariable long id) {
-        model.addAttribute("user", userService.getUser(id));
-        return "users_delete";
-    }
 
-    @PostMapping("/{id}/delete")
-    public String deleteConfirm(Model model, @PathVariable long id) {
-        userService.deleteUser(id);
+
+    @GetMapping("/delete/{id}")
+    public String delete( @PathVariable long id) {
+       userService.deleteUser(id);
         return "redirect:/users/";
     }
 
@@ -48,7 +52,7 @@ public class UserController {
         return "users_add";
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping("/edit/{id}")
     public String edit(Model model, @PathVariable long id) {
         model.addAttribute("user", userService.getUser(id));
         return "users_add";

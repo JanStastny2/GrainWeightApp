@@ -38,9 +38,9 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests // Change to authorizeHttpRequests
                         .requestMatchers("/", "/home").authenticated()
-                        .requestMatchers("/users/**").hasRole("ADMIN")
-                        .requestMatchers("/fields/**").hasRole("ADMIN")
+                        .requestMatchers("/fields/edit/", "fields/delete/", "fields/new", "fields/save", "users/**").hasRole("ADMIN")
                         .requestMatchers("/rest/**").permitAll()
+                        .requestMatchers("/css/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/rest/**").permitAll()
                         .anyRequest().authenticated()
                 ).csrf(AbstractHttpConfigurer::disable)
