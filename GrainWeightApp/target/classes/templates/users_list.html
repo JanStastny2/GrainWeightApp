@@ -41,7 +41,9 @@
                 <td th:text="${user.username}">uživatel123</td>
                 <td th:text="${#lists.isEmpty(user.role) ? '—' : user.role}">ROLE_USER</td>
                 <td class="non-clickable">
-                    <a th:href="@{/users/delete/{id}(id=${user.id})}"
+                    <span th:if="${#authentication.name == user.username}"></span>
+                    <a th:if="${#authentication.name != user.username}"
+                       th:href="@{/users/delete/{id}(id=${user.id})}"
                        onclick="return confirm('Opravdu chcete odstranit tohoto uživatele?');">
                         Smazat
                     </a>
