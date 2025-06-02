@@ -15,6 +15,13 @@ public class Driver {
     private String licencePlate;
     private String contact;
 
+    public Driver(long l, String janNovak, double v, Object o) {
+    }
+
+    public Driver() {
+
+    }
+
 
     public long getId() {
         return id;
