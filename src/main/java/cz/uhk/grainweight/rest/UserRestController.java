@@ -27,22 +27,19 @@ public class UserRestController extends BaseController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUser(@PathVariable long id) {
-        User user = userService.getUser(id);
-        if (user == null)
-            return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
-        else
-            return new ResponseEntity<>(user, HttpStatus.OK);
+        return userService.getUser(id)
+                .<ResponseEntity<?>>map(user -> new ResponseEntity<>(user, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable long id) {
-        User user = userService.getUser(id);
-        if (user == null)
-            return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
-        else{
-            userService.deleteUser(id);
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        }
+        return userService.getUser(id)
+                .<ResponseEntity<?>>map(user -> {
+                    userService.deleteUser(id);
+                    return new ResponseEntity<>(user, HttpStatus.OK);
+                })
+                .orElseGet(() -> new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND));
     }
 
     @PutMapping("/{id}")

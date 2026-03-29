@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WeightRecordServiceImpl implements WeightRecordService {
@@ -23,8 +24,8 @@ public class WeightRecordServiceImpl implements WeightRecordService {
     }
 
     @Override
-    public WeightRecord getWeightRecord(Long id) {
-        return weightRecordRepository.findById(id).orElse(null);
+    public Optional<WeightRecord> getWeightRecord(Long id) {
+        return weightRecordRepository.findById(id);
     }
 
     @Override

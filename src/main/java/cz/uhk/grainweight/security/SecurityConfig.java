@@ -34,7 +34,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((requests) -> requests // Change to authorizeHttpRequests
+                .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/home").authenticated()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/fields/edit/", "fields/delete/", "fields/new", "fields/save", "users/**").hasRole("ADMIN")
@@ -43,12 +43,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/**").permitAll()
                         .anyRequest().authenticated()
                 ).csrf(AbstractHttpConfigurer::disable)
-                //.formLogin(Customizer.withDefaults())
                 .formLogin((form) -> form
-                        .loginPage("/login") // Custom login page
-                        .loginProcessingUrl("/login") // Form submission URL
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/home", true)
-                        .permitAll()) // Permit all to access the login page
+                        .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")

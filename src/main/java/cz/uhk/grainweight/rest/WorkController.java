@@ -96,14 +96,14 @@ public class WorkController extends BaseController {
                     throw new IllegalArgumentException("Weight records must be > 0");
 
                 if (userId != null) {
-                    User createdBy = userService.getUser(userId);
+                    User createdBy = userService.getUser(userId).orElse(null);
                     record.setCreatedBy(createdBy);
                 } else {
                     record.setCreatedBy(null);
                 }
 
                 if (fieldId != null) {
-                    Field field = fieldService.getField(fieldId);
+                    Field field = fieldService.getField(fieldId).orElse(null);
                     record.setField(field);
                 } else {
                     record.setField(null);

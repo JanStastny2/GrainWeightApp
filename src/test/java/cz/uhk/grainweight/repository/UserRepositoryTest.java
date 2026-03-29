@@ -1,0 +1,47 @@
+package cz.uhk.grainweight.repository;
+
+import cz.uhk.grainweight.model.User;
+import cz.uhk.grainweight.service.DriverService;
+import cz.uhk.grainweight.service.FieldService;
+import cz.uhk.grainweight.service.UserService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.TestPropertySource;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@DataJpaTest(showSql = false)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
+@TestPropertySource(properties = "spring.jpa.hibernate.ddl-auto=create-drop")
+class UserRepositoryTest {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @MockBean
+    private UserService userService;
+    @MockBean
+    private PasswordEncoder passwordEncoder;
+    @MockBean
+    private DriverService driverService;
+    @MockBean
+    private FieldService fieldService;
+
+    @Test
+    void save_ShouldPersistUser() {
+        User user = new User();
+        user.setUsername("testuser");
+        user.setPassword("password");
+        user.setRole("USER");
+        user.setName("Test Name");
+
+        User savedUser = userRepository.save(user);
+
+        assertNotNull(savedUser.getId());
+        assertEquals("testuser", savedUser.getUsername());
+    }
+}

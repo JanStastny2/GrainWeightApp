@@ -3,6 +3,7 @@ package cz.uhk.grainweight.rest;
 import cz.uhk.grainweight.model.WeightRecord;
 import cz.uhk.grainweight.service.WeightRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +25,10 @@ public class WeightRecordRestController {
     }
 
     @GetMapping("/get/{id}")
-    public WeightRecord getRecord(@PathVariable long id) {
-        return weightRecordService.getWeightRecord(id);
+    public ResponseEntity<WeightRecord> getRecord(@PathVariable long id) {
+        return weightRecordService.getWeightRecord(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/new")
@@ -34,11 +37,12 @@ public class WeightRecordRestController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public WeightRecord deleteRecord(@PathVariable long id) {
-        WeightRecord record = weightRecordService.getWeightRecord(id);
-        if (record != null) {
-            weightRecordService.deleteWeightRecord(id);
-        }
-        return record;
+    public ResponseEntity<WeightRecord> deleteRecord(@PathVariable long id) {
+        return weightRecordService.getWeightRecord(id)
+                .map(record -> {
+                    weightRecordService.deleteWeightRecord(id);
+                    return ResponseEntity.ok(record);
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

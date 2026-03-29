@@ -38,7 +38,8 @@ public class FieldController {
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
-        Field field = fieldService.getField(id);
+        Field field = fieldService.getField(id)
+                .orElseThrow(() -> new java.util.NoSuchElementException("Field not found: " + id));
         model.addAttribute("field", field);
         return "field_form";
     }

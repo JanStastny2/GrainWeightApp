@@ -3,6 +3,7 @@ package cz.uhk.grainweight.rest;
 import cz.uhk.grainweight.model.Driver;
 import cz.uhk.grainweight.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +25,10 @@ public class DriverRestController {
     }
 
     @GetMapping("/get/{id}")
-    public Driver getDriver(@PathVariable long id) {
-        return driverService.getDriver(id);
+    public ResponseEntity<Driver> getDriver(@PathVariable long id) {
+        return driverService.getDriver(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/new")
@@ -35,11 +38,12 @@ public class DriverRestController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public Driver deleteDriver(@PathVariable long id) {
-        Driver driver = driverService.getDriver(id);
-        if (driver != null) {
-            driverService.deleteDriver(id);
-        }
-        return driver;
+    public ResponseEntity<Driver> deleteDriver(@PathVariable long id) {
+        return driverService.getDriver(id)
+                .map(driver -> {
+                    driverService.deleteDriver(id);
+                    return ResponseEntity.ok(driver);
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

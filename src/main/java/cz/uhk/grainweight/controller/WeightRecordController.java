@@ -64,7 +64,8 @@ public class WeightRecordController {
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Long id, Model model) {
-        WeightRecord record = weightRecordService.getWeightRecord(id);
+        WeightRecord record = weightRecordService.getWeightRecord(id)
+                .orElseThrow(() -> new java.util.NoSuchElementException("WeightRecord not found: " + id));
         model.addAttribute("weightrecord", record);
         model.addAttribute("fields", fieldService.getAllFields());
         model.addAttribute("drivers", driverService.getAllDrivers());

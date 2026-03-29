@@ -4,17 +4,19 @@ import cz.uhk.grainweight.model.User;
 import cz.uhk.grainweight.repository.UserRepository;
 import cz.uhk.grainweight.security.MyUserDetails;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -22,15 +24,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
+        log.info("Fetching all users");
         return userRepository.findAll();
     }
 
     @Override
     public User saveUser(User user) {
         if (userRepository.existsByUsername(user.getUsername())) {
-            throw new IllegalArgumentException("Uživatelské jméno již existuje");
+            log.error("Username already exists: {}", user.getUsername());
+            throw new IllegalArgumentException("Username already exists");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        log.info("Saving new user: {}", user.getUsername());
         return userRepository.save(user);
     }
 
@@ -49,8 +54,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(long id) {
-        return userRepository.findById(id).orElse(null);
+    public Optional<User> getUser(long id) {
+        return userRepository.findById(id);
     }
 
     @Override

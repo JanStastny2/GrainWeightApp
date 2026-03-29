@@ -1,13 +1,15 @@
 package cz.uhk.grainweight.service;
 
 import cz.uhk.grainweight.model.WeightRecord;
+
 import java.util.List;
+import java.util.Optional;
 
 public interface WeightRecordService {
 
     List<WeightRecord> getAllWeightRecords();
 
-    WeightRecord getWeightRecord(Long id);
+    Optional<WeightRecord> getWeightRecord(Long id);
 
     WeightRecord saveWeightRecord(WeightRecord weightRecord);
 

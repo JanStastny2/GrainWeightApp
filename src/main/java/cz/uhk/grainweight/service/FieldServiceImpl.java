@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +21,8 @@ public class FieldServiceImpl implements FieldService {
     }
 
     @Override
-    public Field getField(Long id) {
-        return fieldRepository.findById(id).orElse(null);
+    public Optional<Field> getField(Long id) {
+        return fieldRepository.findById(id);
     }
 
     @Override

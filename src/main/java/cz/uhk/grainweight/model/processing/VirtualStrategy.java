@@ -1,8 +1,5 @@
 package cz.uhk.grainweight.model.processing;
 
-
-import cz.uhk.grainweight.rest.WorkController;
-import cz.uhk.grainweight.service.ProcessingRouter;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

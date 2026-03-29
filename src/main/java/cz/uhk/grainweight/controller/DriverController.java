@@ -40,7 +40,9 @@ public class DriverController {
 
     @GetMapping("/edit/{id}")
     public String edit(Model model, @PathVariable long id) {
-        model.addAttribute("driver", driverService.getDriver(id));
+        Driver driver = driverService.getDriver(id)
+                .orElseThrow(() -> new java.util.NoSuchElementException("Driver not found: " + id));
+        model.addAttribute("driver", driver);
         return "drivers_add";
     }
 

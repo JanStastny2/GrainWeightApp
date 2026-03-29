@@ -36,11 +36,9 @@ public class GrainWeightApp {
             addUser("User", "user", "heslo", "USER");
             addUser("Admin", "admin", "heslo", "ADMIN");
 
-            // Inicializace řidičů
             addDriver("Jan Novák", 5000, "ABC-1234", "jan.novak@example.com");
             addDriver("Petr Svoboda", 5200, "XYZ-5678", "petr.svoboda@example.com");
 
-            // Inicializace polí
             addField("Pole 1", 15.2, "Severní okraj farmy");
             addField("Pole 2", 8.7, "Jižní svah zahrady");
         };

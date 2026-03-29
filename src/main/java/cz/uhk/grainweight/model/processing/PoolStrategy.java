@@ -15,10 +15,9 @@ public class PoolStrategy implements ProcessingStrategy {
     private static ExecutorService newFixedPool(int size, String name) {
         int n = Math.max(2, size);
         ThreadFactory tf = new ThreadFactory() {
-            // private final AtomicInteger id = new AtomicInteger(1);
-            private int id = 1;
+            private final AtomicInteger id = new AtomicInteger(1);
             @Override public Thread newThread(Runnable r) {
-                Thread t = new Thread(r, name + "-" + id++);
+                Thread t = new Thread(r, name + "-" + id.getAndIncrement());
                 t.setDaemon(true);
                 t.setUncaughtExceptionHandler((th, ex) ->
                         log.error("Uncaught in {}: {}", th.getName(), ex.toString(), ex));

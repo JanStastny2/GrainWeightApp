@@ -1,66 +1,33 @@
 package cz.uhk.grainweight.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "drivers")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Driver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank
+    @Column(nullable = false)
     private String driverName;
+
+    @NotNull
     private int tareWeight;
+
+    @NotBlank
+    @Column(nullable = false)
     private String licencePlate;
+
     private String contact;
-
-    public Driver(long l, String janNovak, double v, Object o) {
-    }
-
-    public Driver() {
-
-    }
-
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getDriverName() {
-        return driverName;
-    }
-
-    public void setDriverName(String driverName) {
-        this.driverName = driverName;
-    }
-
-    public int getTareWeight() {
-        return tareWeight;
-    }
-
-    public void setTareWeight(int tareWeight) {
-        this.tareWeight = tareWeight;
-    }
-
-    public String getLicencePlate() {
-        return licencePlate;
-    }
-
-    public void setLicencePlate(String licencePlate) {
-        this.licencePlate = licencePlate;
-    }
-
-    public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-
 }

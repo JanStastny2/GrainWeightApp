@@ -26,7 +26,9 @@ public class UserController {
 
     @GetMapping("/{id}")
     public String detail(Model model, @PathVariable long id) {
-        model.addAttribute("user", userService.getUser(id));
+        User user = userService.getUser(id)
+                .orElseThrow(() -> new java.util.NoSuchElementException("User not found: " + id));
+        model.addAttribute("user", user);
         return "users_detail";
     }
 
@@ -46,7 +48,9 @@ public class UserController {
 
     @GetMapping("/edit/{id}")
     public String edit(Model model, @PathVariable long id) {
-        model.addAttribute("user", userService.getUser(id));
+        User user = userService.getUser(id)
+                .orElseThrow(() -> new java.util.NoSuchElementException("User not found: " + id));
+        model.addAttribute("user", user);
         return "users_add";
     }
 
