@@ -66,7 +66,7 @@ class VirtualStrategyTest {
         CountDownLatch allDone = new CountDownLatch(threadCount);
         ExecutorService caller = Executors.newFixedThreadPool(threadCount);
 
-        strategy.setConcurrencyCap(null); // no cap
+        strategy.setConcurrencyCap(null);
 
         for (int i = 0; i < threadCount; i++) {
             caller.submit(() -> {

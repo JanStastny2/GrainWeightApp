@@ -58,7 +58,7 @@ class PoolStrategyTest {
         CountDownLatch allDone = new CountDownLatch(threadCount);
         ExecutorService caller = Executors.newFixedThreadPool(threadCount);
 
-        strategy.setCap(null); // no cap
+        strategy.setCap(null);
 
         for (int i = 0; i < threadCount; i++) {
             caller.submit(() -> {
