@@ -44,4 +44,32 @@ class UserRepositoryTest {
         assertNotNull(savedUser.getId());
         assertEquals("testuser", savedUser.getUsername());
     }
+
+    @Test
+    void findByUsername_ShouldReturnPersistedUser() {
+        User user = new User();
+        user.setUsername("lookup-user");
+        user.setPassword("password");
+        user.setRole("USER");
+
+        userRepository.save(user);
+
+        User foundUser = userRepository.findByUsername("lookup-user");
+
+        assertNotNull(foundUser);
+        assertEquals("lookup-user", foundUser.getUsername());
+    }
+
+    @Test
+    void existsByUsername_ShouldReturnTrueForPersistedUser() {
+        User user = new User();
+        user.setUsername("existing-user");
+        user.setPassword("password");
+        user.setRole("USER");
+
+        userRepository.save(user);
+
+        assertTrue(userRepository.existsByUsername("existing-user"));
+        assertFalse(userRepository.existsByUsername("missing-user"));
+    }
 }

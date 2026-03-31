@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -11,6 +12,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -87,5 +89,70 @@ class WorkControllerIT {
         mockMvc.perform(get("/api/work/records")
                         .param("mode", "SERIAL"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void getUsers_Serial_ShouldReturnApiResponseWithTimingFields() throws Exception {
+        mockMvc.perform(get("/api/work/users")
+                        .param("mode", "SERIAL"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(200))
+                .andExpect(jsonPath("$.data").isArray())
+                .andExpect(jsonPath("$.serverProcessingMs").isNumber())
+                .andExpect(jsonPath("$.queueWaitMs").isNumber());
+    }
+
+    @Test
+    void createRecord_WhenDateMissing_ShouldReturnCreatedAndPopulateDate() throws Exception {
+        mockMvc.perform(post("/api/work/records")
+                        .param("mode", "SERIAL")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  \"grossWeight\": 1500,
+                                  \"tareWeight\": 500,
+                                  \"driverName\": \"Test Driver\",
+                                  \"licencePlate\": \"ABC-1234\",
+                                  \"driverContact\": \"test@example.com\"
+                                }
+                                """))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.status").value(201))
+                .andExpect(jsonPath("$.data.id").isNumber())
+                .andExpect(jsonPath("$.data.date").isNotEmpty());
+    }
+
+    @Test
+    void createRecord_WhenNegativeGrossWeight_ShouldReturnInternalServerError() throws Exception {
+        mockMvc.perform(post("/api/work/records")
+                        .param("mode", "SERIAL")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  \"grossWeight\": -1,
+                                  \"tareWeight\": 500,
+                                  \"driverName\": \"Test Driver\",
+                                  \"licencePlate\": \"ABC-1234\"
+                                }
+                                """))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.message").value("Weight records must be > 0"));
+    }
+
+    @Test
+    void createRecord_WhenNegativeTareWeight_ShouldReturnInternalServerError() throws Exception {
+        mockMvc.perform(post("/api/work/records")
+                        .param("mode", "SERIAL")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  \"grossWeight\": 1000,
+                                  \"tareWeight\": -1,
+                                  \"driverName\": \"Test Driver\",
+                                  \"licencePlate\": \"ABC-1234\"
+                                }
+                                """))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.message").value("Weight records must be > 0"));
     }
 }

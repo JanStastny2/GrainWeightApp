@@ -9,10 +9,8 @@
 <body>
 
 <main class="container main-content">
-    <!-- Nadpis stránky -->
     <h2 class="page-heading">Seznam záznamů vážení</h2>
 
-    <!-- Tlačítka nahoře -->
     <div class="buttons-wrapper">
         <a th:href="@{/weightrecords/new}">
             <button class="btn-add">+ Přidat nové vážení</button>
@@ -22,7 +20,6 @@
         </a>
     </div>
 
-    <!-- Tabulka se záznamy vážení -->
     <div class="list-container">
         <table class="list-table">
             <thead>
@@ -68,7 +65,6 @@
     </div>
 </footer>
 
-<!-- Klikací řádky s výjimkou buněk "Akce" -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".clickable-row").forEach(row => {
