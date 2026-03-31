@@ -2,7 +2,7 @@ package cz.uhk.grainweight.rest;
 
 import cz.uhk.grainweight.model.WeightRecord;
 import cz.uhk.grainweight.service.WeightRecordService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,14 +10,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/records")
+@RequiredArgsConstructor
 public class WeightRecordRestController {
 
     private final WeightRecordService weightRecordService;
-
-    @Autowired
-    public WeightRecordRestController(WeightRecordService weightRecordService) {
-        this.weightRecordService = weightRecordService;
-    }
 
     @GetMapping("/getall")
     public List<WeightRecord> getAllRecords() {

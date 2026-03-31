@@ -2,7 +2,7 @@ package cz.uhk.grainweight.rest;
 
 import cz.uhk.grainweight.model.Driver;
 import cz.uhk.grainweight.service.DriverService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,14 +10,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/drivers")
+@RequiredArgsConstructor
 public class DriverRestController {
 
     private final DriverService driverService;
-
-    @Autowired
-    public DriverRestController(DriverService driverService) {
-        this.driverService = driverService;
-    }
 
     @GetMapping("/getall")
     public List<Driver> getAllDrivers() {

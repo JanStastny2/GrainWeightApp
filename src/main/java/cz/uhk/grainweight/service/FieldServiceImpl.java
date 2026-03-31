@@ -3,7 +3,6 @@ package cz.uhk.grainweight.service;
 import cz.uhk.grainweight.model.Field;
 import cz.uhk.grainweight.repository.FieldRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

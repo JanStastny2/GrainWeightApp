@@ -3,7 +3,7 @@ package cz.uhk.grainweight.rest;
 import cz.uhk.grainweight.model.ApiResponse;
 import cz.uhk.grainweight.model.User;
 import cz.uhk.grainweight.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
 public class UserRestController extends BaseController {
 
     private final UserService userService;
-
-    public UserRestController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping("/")
     public ResponseEntity<ApiResponse<List<User>>> getUsers() {

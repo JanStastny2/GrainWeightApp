@@ -2,21 +2,17 @@ package cz.uhk.grainweight.controller;
 
 import cz.uhk.grainweight.model.Field;
 import cz.uhk.grainweight.service.FieldService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/fields")
+@RequiredArgsConstructor
 public class FieldController {
 
     private final FieldService fieldService;
-
-    @Autowired
-    public FieldController(FieldService fieldService) {
-        this.fieldService = fieldService;
-    }
 
     @GetMapping(path = { "", "/" })
     public String listFields(Model model) {

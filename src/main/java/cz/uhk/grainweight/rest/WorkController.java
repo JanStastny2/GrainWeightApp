@@ -9,8 +9,6 @@ import cz.uhk.grainweight.model.processing.ProcessingStrategy;
 import cz.uhk.grainweight.model.processing.WorkSpec;
 import cz.uhk.grainweight.service.*;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +25,6 @@ public class WorkController extends BaseController {
     private final ProcessingRouter router;
     private final UserService userService;
     private final WorkSimulator workSimulator;
-
-    private final Logger log = LoggerFactory.getLogger(WorkController.class);
     private final WeightRecordService weightRecordService;
     private final FieldService fieldService;
 
@@ -39,9 +35,7 @@ public class WorkController extends BaseController {
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false, defaultValue = "0") Integer delayMs) {
 
-        WorkSpec spec = new WorkSpec();
-        spec.setMode(mode);
-        spec.setSize(size);
+        WorkSpec spec = new WorkSpec(mode, size);
 
         final int safeDelay = Math.max(0, delayMs);
 
@@ -71,9 +65,7 @@ public class WorkController extends BaseController {
             @RequestParam(required = false) Long userId,
             @RequestBody WeightRecord record) {
 
-        WorkSpec spec = new WorkSpec();
-        spec.setMode(mode);
-        spec.setSize(size);
+        WorkSpec spec = new WorkSpec(mode, size);
 
         final int safeDelay = Math.max(0, delayMs);
 
@@ -129,9 +121,7 @@ public class WorkController extends BaseController {
         final Integer normalizedSize = (size != null && size > 0) ? size : null;
         final long safeDelay = (delayMs != null && delayMs > 0) ? delayMs : 0L;
 
-        WorkSpec spec = new WorkSpec();
-        spec.setMode(mode);
-        spec.setSize(normalizedSize);
+        WorkSpec spec = new WorkSpec(mode, normalizedSize);
 
         String msg = "Processed with " + mode
                 + (normalizedSize != null ? (" size=" + normalizedSize) : "")

@@ -7,7 +7,7 @@ import cz.uhk.grainweight.service.FieldService;
 import cz.uhk.grainweight.service.UserService;
 import cz.uhk.grainweight.service.WeightRecordService;
 import cz.uhk.grainweight.service.DriverService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -18,19 +18,13 @@ import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/weightrecords")
+@RequiredArgsConstructor
 public class WeightRecordController {
 
-    @Autowired
-    private WeightRecordService weightRecordService;
-
-    @Autowired
-    private FieldService fieldService;
-
-    @Autowired
-    private DriverService driverService;
-
-    @Autowired
-    private UserService userService;
+    private final WeightRecordService weightRecordService;
+    private final FieldService fieldService;
+    private final DriverService driverService;
+    private final UserService userService;
 
     @GetMapping(path = { "", "/" })
     public String listWeightRecords(Model model) {

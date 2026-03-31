@@ -2,20 +2,16 @@ package cz.uhk.grainweight.controller;
 
 import cz.uhk.grainweight.model.Driver;
 import cz.uhk.grainweight.service.DriverService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/drivers")
+@RequiredArgsConstructor
 public class DriverController {
     private final DriverService driverService;
-
-    @Autowired
-    public DriverController(DriverService driverService) {
-        this.driverService = driverService;
-    }
 
     @GetMapping(path = { "", "/" })
     public String list(Model model) {

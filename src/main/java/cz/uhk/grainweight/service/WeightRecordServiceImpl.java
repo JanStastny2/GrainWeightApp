@@ -2,21 +2,17 @@ package cz.uhk.grainweight.service;
 
 import cz.uhk.grainweight.model.WeightRecord;
 import cz.uhk.grainweight.repository.WeightRecordRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class WeightRecordServiceImpl implements WeightRecordService {
 
     private final WeightRecordRepository weightRecordRepository;
-
-    @Autowired
-    public WeightRecordServiceImpl(WeightRecordRepository weightRecordRepository) {
-        this.weightRecordRepository = weightRecordRepository;
-    }
 
     @Override
     public List<WeightRecord> getAllWeightRecords() {

@@ -4,7 +4,6 @@ import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -78,4 +77,3 @@ public class VirtualStrategy implements ProcessingStrategy {
     @PreDestroy
     public void shutdown() { execService.shutdown(); }
 }
-
