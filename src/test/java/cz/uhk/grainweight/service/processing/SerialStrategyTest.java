@@ -1,6 +1,5 @@
-package cz.uhk.grainweight.model.processing;
+package cz.uhk.grainweight.service.processing;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,18 +8,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PoolStrategyTest {
+class SerialStrategyTest {
 
-    private PoolStrategy strategy;
+    private SerialStrategy strategy;
 
     @BeforeEach
     void setUp() {
-        strategy = new PoolStrategy();
-    }
-
-    @AfterEach
-    void tearDown() {
-        strategy.shutdown();
+        strategy = new SerialStrategy();
     }
 
     @Test
@@ -49,23 +43,21 @@ class PoolStrategyTest {
     }
 
     @Test
-    void execute_ShouldAllowMultipleConcurrentTasks_WithoutCap() throws InterruptedException {
-        int threadCount = 4;
+    void execute_ShouldEnforceSerialExecution_OnlyOneTaskAtATime() throws InterruptedException {
+        int threadCount = 5;
         AtomicInteger concurrentlyRunning = new AtomicInteger(0);
         AtomicInteger maxConcurrent = new AtomicInteger(0);
         CountDownLatch allDone = new CountDownLatch(threadCount);
-        ExecutorService caller = Executors.newFixedThreadPool(threadCount);
-
-        strategy.setCap(null);
+        ExecutorService executor = Executors.newFixedThreadPool(threadCount);
 
         for (int i = 0; i < threadCount; i++) {
-            caller.submit(() -> {
+            executor.submit(() -> {
                 try {
                     strategy.execute(() -> {
                         int current = concurrentlyRunning.incrementAndGet();
                         maxConcurrent.accumulateAndGet(current, Math::max);
                         try {
-                            Thread.sleep(100);
+                            Thread.sleep(20);
                         } catch (InterruptedException e) {
                             Thread.currentThread().interrupt();
                         }
@@ -79,48 +71,10 @@ class PoolStrategyTest {
         }
 
         assertTrue(allDone.await(10, TimeUnit.SECONDS), "Tasks did not complete in time");
-        caller.shutdown();
+        executor.shutdown();
 
-        assertTrue(maxConcurrent.get() > 1,
-                "PoolStrategy without cap should allow concurrent execution, max was: " + maxConcurrent.get());
-    }
-
-    @Test
-    void execute_ShouldRespectConcurrencyCap() throws InterruptedException {
-        int cap = 2;
-        int threadCount = 6;
-        strategy.setCap(cap);
-
-        AtomicInteger concurrentlyRunning = new AtomicInteger(0);
-        AtomicInteger maxConcurrent = new AtomicInteger(0);
-        CountDownLatch allDone = new CountDownLatch(threadCount);
-        ExecutorService caller = Executors.newFixedThreadPool(threadCount);
-
-        for (int i = 0; i < threadCount; i++) {
-            caller.submit(() -> {
-                try {
-                    strategy.execute(() -> {
-                        int current = concurrentlyRunning.incrementAndGet();
-                        maxConcurrent.accumulateAndGet(current, Math::max);
-                        try {
-                            Thread.sleep(80);
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                        }
-                        concurrentlyRunning.decrementAndGet();
-                        return "ok";
-                    });
-                } finally {
-                    allDone.countDown();
-                }
-            });
-        }
-
-        assertTrue(allDone.await(15, TimeUnit.SECONDS), "Tasks did not complete in time");
-        caller.shutdown();
-
-        assertTrue(maxConcurrent.get() <= cap,
-                "PoolStrategy with cap=" + cap + " must not exceed it, max was: " + maxConcurrent.get());
+        assertEquals(1, maxConcurrent.get(),
+                "SerialStrategy must never run more than 1 task concurrently, max was: " + maxConcurrent.get());
     }
 
     @Test

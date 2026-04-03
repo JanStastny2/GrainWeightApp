@@ -1,4 +1,4 @@
-package cz.uhk.grainweight.model.processing;
+package cz.uhk.grainweight.service.processing;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

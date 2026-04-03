@@ -67,7 +67,6 @@
 </main>
 
 <script th:inline="javascript">
-    /*<![CDATA[*/
     (function(){
         const dateInput = document.getElementById('dateInput');
         const now = new Date().toISOString().slice(0,16);
@@ -90,7 +89,6 @@
         select.addEventListener('change', updateFields);
         updateFields();
     })();
-    /*]]>*/
 </script>
 
 </body>

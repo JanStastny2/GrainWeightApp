@@ -1,5 +1,6 @@
-package cz.uhk.grainweight.model.processing;
+package cz.uhk.grainweight.service.processing;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,13 +9,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SerialStrategyTest {
+class PoolStrategyTest {
 
-    private SerialStrategy strategy;
+    private PoolStrategy strategy;
 
     @BeforeEach
     void setUp() {
-        strategy = new SerialStrategy();
+        strategy = new PoolStrategy();
+    }
+
+    @AfterEach
+    void tearDown() {
+        strategy.shutdown();
     }
 
     @Test
@@ -43,21 +49,23 @@ class SerialStrategyTest {
     }
 
     @Test
-    void execute_ShouldEnforceSerialExecution_OnlyOneTaskAtATime() throws InterruptedException {
-        int threadCount = 5;
+    void execute_ShouldAllowMultipleConcurrentTasks_WithoutCap() throws InterruptedException {
+        int threadCount = 4;
         AtomicInteger concurrentlyRunning = new AtomicInteger(0);
         AtomicInteger maxConcurrent = new AtomicInteger(0);
         CountDownLatch allDone = new CountDownLatch(threadCount);
-        ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+        ExecutorService caller = Executors.newFixedThreadPool(threadCount);
+
+        strategy.setCap(null);
 
         for (int i = 0; i < threadCount; i++) {
-            executor.submit(() -> {
+            caller.submit(() -> {
                 try {
                     strategy.execute(() -> {
                         int current = concurrentlyRunning.incrementAndGet();
                         maxConcurrent.accumulateAndGet(current, Math::max);
                         try {
-                            Thread.sleep(20);
+                            Thread.sleep(100);
                         } catch (InterruptedException e) {
                             Thread.currentThread().interrupt();
                         }
@@ -71,10 +79,48 @@ class SerialStrategyTest {
         }
 
         assertTrue(allDone.await(10, TimeUnit.SECONDS), "Tasks did not complete in time");
-        executor.shutdown();
+        caller.shutdown();
 
-        assertEquals(1, maxConcurrent.get(),
-                "SerialStrategy must never run more than 1 task concurrently, max was: " + maxConcurrent.get());
+        assertTrue(maxConcurrent.get() > 1,
+                "PoolStrategy without cap should allow concurrent execution, max was: " + maxConcurrent.get());
+    }
+
+    @Test
+    void execute_ShouldRespectConcurrencyCap() throws InterruptedException {
+        int cap = 2;
+        int threadCount = 6;
+        strategy.setCap(cap);
+
+        AtomicInteger concurrentlyRunning = new AtomicInteger(0);
+        AtomicInteger maxConcurrent = new AtomicInteger(0);
+        CountDownLatch allDone = new CountDownLatch(threadCount);
+        ExecutorService caller = Executors.newFixedThreadPool(threadCount);
+
+        for (int i = 0; i < threadCount; i++) {
+            caller.submit(() -> {
+                try {
+                    strategy.execute(() -> {
+                        int current = concurrentlyRunning.incrementAndGet();
+                        maxConcurrent.accumulateAndGet(current, Math::max);
+                        try {
+                            Thread.sleep(80);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                        concurrentlyRunning.decrementAndGet();
+                        return "ok";
+                    });
+                } finally {
+                    allDone.countDown();
+                }
+            });
+        }
+
+        assertTrue(allDone.await(15, TimeUnit.SECONDS), "Tasks did not complete in time");
+        caller.shutdown();
+
+        assertTrue(maxConcurrent.get() <= cap,
+                "PoolStrategy with cap=" + cap + " must not exceed it, max was: " + maxConcurrent.get());
     }
 
     @Test

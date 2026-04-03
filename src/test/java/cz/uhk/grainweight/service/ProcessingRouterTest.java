@@ -1,10 +1,10 @@
 package cz.uhk.grainweight.service;
 
-import cz.uhk.grainweight.model.processing.PoolStrategy;
-import cz.uhk.grainweight.model.processing.ProcessingMode;
-import cz.uhk.grainweight.model.processing.SerialStrategy;
-import cz.uhk.grainweight.model.processing.VirtualStrategy;
-import cz.uhk.grainweight.model.processing.WorkSpec;
+import cz.uhk.grainweight.service.processing.PoolStrategy;
+import cz.uhk.grainweight.service.processing.ProcessingMode;
+import cz.uhk.grainweight.service.processing.SerialStrategy;
+import cz.uhk.grainweight.service.processing.VirtualStrategy;
+import cz.uhk.grainweight.service.processing.WorkSpec;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertSame;

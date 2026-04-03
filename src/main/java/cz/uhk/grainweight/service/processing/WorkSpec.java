@@ -1,4 +1,4 @@
-package cz.uhk.grainweight.model.processing;
+package cz.uhk.grainweight.service.processing;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

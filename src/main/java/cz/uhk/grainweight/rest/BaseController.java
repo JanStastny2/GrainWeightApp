@@ -1,7 +1,7 @@
 package cz.uhk.grainweight.rest;
 
 import cz.uhk.grainweight.model.ApiResponse;
-import cz.uhk.grainweight.model.processing.ProcessingResult;
+import cz.uhk.grainweight.service.processing.ProcessingResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

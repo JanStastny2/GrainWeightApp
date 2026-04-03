@@ -4,9 +4,9 @@ import cz.uhk.grainweight.model.ApiResponse;
 import cz.uhk.grainweight.model.Field;
 import cz.uhk.grainweight.model.User;
 import cz.uhk.grainweight.model.WeightRecord;
-import cz.uhk.grainweight.model.processing.ProcessingMode;
-import cz.uhk.grainweight.model.processing.ProcessingStrategy;
-import cz.uhk.grainweight.model.processing.WorkSpec;
+import cz.uhk.grainweight.service.processing.ProcessingMode;
+import cz.uhk.grainweight.service.processing.ProcessingStrategy;
+import cz.uhk.grainweight.service.processing.WorkSpec;
 import cz.uhk.grainweight.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -116,10 +116,10 @@ public class WorkController extends BaseController {
     public ResponseEntity<ApiResponse<List<User>>> getUsers(
             @RequestParam(defaultValue = "SERIAL") ProcessingMode mode,
             @RequestParam(required = false) Integer size,
-            @RequestParam(required = false) Long delayMs
+            @RequestParam(required = false) Integer delayMs
     ) {
         final Integer normalizedSize = (size != null && size > 0) ? size : null;
-        final long safeDelay = (delayMs != null && delayMs > 0) ? delayMs : 0L;
+        final int safeDelay = (delayMs != null && delayMs > 0) ? delayMs : 0;
 
         WorkSpec spec = new WorkSpec(mode, normalizedSize);
 

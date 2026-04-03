@@ -52,7 +52,7 @@ public class UserRestController extends BaseController {
 
     @PostMapping("/new")
     public ResponseEntity<ApiResponse<User>> createUser(@RequestBody User user) {
-        return wrapResponse(() -> userService.saveUser(user), HttpStatus.CREATED, "succes");
+        return wrapResponse(() -> userService.saveUser(user), HttpStatus.CREATED, "success");
     }
 
 }

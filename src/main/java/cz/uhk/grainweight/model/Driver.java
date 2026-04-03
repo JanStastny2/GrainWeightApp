@@ -1,8 +1,8 @@
 package cz.uhk.grainweight.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -22,7 +22,7 @@ public class Driver {
     @Column(nullable = false)
     private String driverName;
 
-    @NotNull
+    @Min(0)
     private int tareWeight;
 
     @NotBlank

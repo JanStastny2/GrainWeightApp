@@ -1,4 +1,4 @@
-package cz.uhk.grainweight.model.processing;
+package cz.uhk.grainweight.service.processing;
 
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
