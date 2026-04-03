@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>My Demo App</title>
+    <title>Grain Weight App</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1 th:text="${user != null ? 'Do you really want to delete user: ' + user.name : 'User does not exist.'}"></h1>
+<h1 th:text="${user != null ? 'Opravdu chcete smazat uživatele: ' + user.name : 'Uživatel neexistuje.'}"></h1>
 <form method="post" th:action="@{'/users/'+${user.id}+'/delete'}">
-    <input type="submit" value="Yes, delete!">
+    <input type="submit" value="Ano, smazat!">
 </form>
-<a th:if="${user != null}" th:href="@{'/users/'+${user.id}}">No</a>
+<a th:if="${user != null}" th:href="@{'/users/'+${user.id}}">Ne</a>
 
-/body>
+</body>
 </html>

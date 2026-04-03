@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>My Demo App</title>
+    <title>Grain Weight App</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1 th:text="${driver != null ? 'Driver: ' + driver.driverName : 'Does not exist.'}"></h1>
+<h1 th:text="${driver != null ? 'Řidič: ' + driver.driverName : 'Řidič neexistuje.'}"></h1>
 
-<a th:if="${driver != null}" th:href="@{'/drivers/edit'+${driver.id}}">Edit Driver</a>
-<a th:if="${driver != null}" th:href="@{'/drivers/delete'+${driver.id}}">Delete Driver</a>
+<a th:if="${driver != null}" th:href="@{'/drivers/edit/'+${driver.id}}">Upravit řidiče</a>
+<a th:if="${driver != null}" th:href="@{'/drivers/delete/'+${driver.id}}">Smazat řidiče</a>
 
 </body>
 </html>
