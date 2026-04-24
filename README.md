@@ -9,7 +9,7 @@ The application uses Spring Boot MVC with three concurrency processing strategie
 | Mode | Mechanism | Description |
 |------|-----------|-------------|
 | `SERIAL` | Single-permit `Semaphore` | Strictly one request processed at a time |
-| `POOL` | Fixed `ThreadPoolExecutor` | Platform thread pool (core count × 2) with optional cap |
+| `POOL` | Fixed `ThreadPoolExecutor` | Platform thread pool with optional cap |
 | `VIRTUAL` | `Executors.newVirtualThreadPerTaskExecutor()` | Java 21 virtual threads with optional cap |
 
 Every response from the `/api/work/**` endpoints wraps the payload in `ApiResponse<T>` containing:
@@ -66,15 +66,6 @@ GET/POST /api/drivers/**    — Driver management
 GET/POST /api/users/**      — User management
 ```
 
-### UI (Thymeleaf)
-
-```
-/weightrecords   — Weight record list and forms
-/fields          — Field list and forms
-/drivers         — Driver list and forms
-/users           — User management (ADMIN role required)
-/login           — Login page
-```
 
 ## Configuration
 
